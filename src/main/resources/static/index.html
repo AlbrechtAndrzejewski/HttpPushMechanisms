@@ -5,6 +5,30 @@
     <title>Random-O-tron</title>
 </head>
 <script>
+var currentNumber = 0;
+function getLastNumber() {
+   var xhr = new XMLHttpRequest();
+   xhr.open('GET', '/getNumber');
+   xhr.responseType = 'text';
+   xhr.onload = function() {
+    if (this.status == 200) {
+        notification = JSON.parse(this.responseText);
+        //console.log(currentNumber);
+        //console.log(notification.randomNumber);
+        if (currentNumber !== notification.randomNumber) {
+            evContainer = document.getElementById("Events");
+            newNumber = document.createElement("li");
+            newNumber.innerHTML = notification.randomNumber;
+            evContainer.prepend(newNumber);
+            currentNumber = notification.randomNumber;
+        }
+    }
+   };
+   xhr.send();
+   setTimeout(getLastNumber, 1000);
+}
+
+getLastNumber();
 
 </script>
 <body>

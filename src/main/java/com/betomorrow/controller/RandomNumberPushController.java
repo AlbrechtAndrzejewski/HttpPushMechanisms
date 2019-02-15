@@ -18,7 +18,7 @@ public class RandomNumberPushController {
     @RequestMapping("/getNumber")
     public String getRandomNumber() {
 
-        return "";
+        return "{\"randomNumber\": " + new Integer(currentRandomNumber).toString() + " }";
     }
 
     @EventListener
