@@ -5,13 +5,34 @@
     <title>Random-O-tron</title>
 </head>
 <script>
+var subscribe = function() {
+    var evtSource = new EventSource("/getNumber");
+    evtSource.onmessage = function(e) {
+        eventList=document.getElementById("Events")
+        var newElement = document.createElement("li");
+        var generatedAt = new Date(JSON.parse(e.data).dateOfGeneration);
+        console.log(generatedAt);
+        newElement.innerHTML = JSON.parse(e.data).randomNumber +
+                               " (generated at " + generatedAt.getHours() +
+                               ":" + generatedAt.getMinutes() +
+                               ":" + generatedAt.getSeconds() +
+                               ") ";
+        eventList.prepend(newElement);
+    }
+}
 
+window.onload = subscribe;
+
+window.onbeforeunload = function() {
+    eventSource.close();
+}
 </script>
 <body>
 Let's have fun with random values !
 <ul id="Events">
 
 </ul>
+
 
 </body>
 </html>
